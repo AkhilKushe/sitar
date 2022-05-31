@@ -100,6 +100,17 @@ class net:public base_net
 				_num_tokens--;
 				return 1;
 			}
+		
+		bool peek(token<_width>& tok)
+			//peek a token and return 1 if net is not empty
+			//return 0 otherwise
+			{
+				if (empty()) return 0; //can't pull
+				//else
+				assert(_buffer);
+				tok=_buffer[_front];
+				return 1;
+			}
 
 		//constructor
 		net()
