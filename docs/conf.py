@@ -36,4 +36,4 @@ html_theme = 'sphinx_rtd_theme'
 epub_show_urls = 'footnote'
 
 # The master toctree document.
-master_doc = 'contents'
+master_doc = 'content'
