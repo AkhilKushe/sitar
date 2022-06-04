@@ -8,3 +8,4 @@ This section will help you get start with Sitar. Learn how to install the depend
    :maxdepth: 1
 
    installation
+   basic_concept
