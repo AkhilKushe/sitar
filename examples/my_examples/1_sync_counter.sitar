@@ -1,0 +1,104 @@
+module Top
+		submodule cnt : Counter<4>
+end module
+
+module Counter
+		parameter int N = 3
+		
+		submodule producer : Producer
+		submodule_array tff[N] : T_FF
+		submodule consumer : Consumer<N>
+
+		net_array inter_connect[N+1] : capacity 1 width 1
+		net_array outputs_tff[N] : capacity 1 width 1
+
+		for i in 0 to (N-1)
+				tff[i].ip <= inter_connect[i]
+				tff[i].to_next_ff => inter_connect[i+1]
+				tff[i].op => outputs_tff[i]
+				consumer.ip[i] <= outputs_tff[i]
+		end for
+		producer.op => inter_connect[0]
+end module
+
+module Producer
+		outport op : width 1
+		decl $token<1> t;$
+		
+		behavior 
+				do
+				wait until (this_phase==1);
+				$
+				*t.data() = (bool)1;
+				while(op.push(t));
+				cout <<std::setw(12) <<hierarchicalId();
+				cout << " " << t.data() << endl;
+				$;
+				wait until (this_phase==0);
+				while(1) end do;
+		end behavior
+end module
+
+module Consumer
+		parameter int N = 3
+		inport_array ip[N] : width 1
+		decl $token<1> t;$
+		
+		behavior
+				do 
+				wait until (this_phase==1);
+				wait until (this_phase==0);
+				$
+				cout << hierarchicalId() << " Recieved ";
+				bool d;
+				for(int i=0; i< N; i++){
+						ip[i].pull(t);
+						memcpy(&d, t.data(), 1);
+						cout << d;
+				}
+				cout << endl;
+				$;
+				
+				while(1) end do;
+		end behavior
+end module
+
+module T_FF
+		inport ip : width 1
+		outport op : width 1
+		outport to_next_ff : width 1
+
+		decl $token<1> t_in; token<1> t_out; token<1> t_next;$
+		decl $bool prev_out, current_out;$
+		decl $bool d;$
+		init $prev_out = 0;$
+		init $current_out = 0;$
+		init $d=0;$
+		include $#include <cstring>$
+		behavior
+		do 
+				wait until (this_phase==0);
+				$ip.pull(t_in);$;
+				$
+				memcpy(&d, t_in.data(), 1);
+				cout << hierarchicalId() << " " << d << endl;
+				$;
+				if(d) then
+						$current_out = (bool)(!prev_out);$;
+				else
+						$current_out = (bool)(prev_out);$;
+				end if;	
+				$*t_out.data() = (bool)(current_out);$;
+				$*t_next.data() = (bool)(d && prev_out);$;
+
+				wait until (this_phase==1);
+				$op.push(t_out);to_next_ff.push(t_next);$;
+				$cout << hierarchicalId() << " output " << current_out << (d&&prev_out) << endl;$;
+				$prev_out = current_out;$;
+		while(1) end do;
+		end behavior
+end module
+
+
+
+
