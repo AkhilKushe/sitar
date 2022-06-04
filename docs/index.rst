@@ -11,9 +11,8 @@ lightweight simulation kernel.
     Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   index
    installation/index
 
 

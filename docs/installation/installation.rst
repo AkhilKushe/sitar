@@ -56,7 +56,7 @@ to use the sitar translator and compiler executables
 outside the installation folder. Replace <path> 
 with absolute path of this folder.
 
-.. admonition:: text
+.. code-block:: bash
 
     #sitar paths:
     export LD_LIBRARY_PATH=<path-to-sitar>/translator/antlr3Cruntime/build/lib:${LD_LIBRARY_PATH}
