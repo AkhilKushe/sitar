@@ -5,7 +5,6 @@
 # -- Project information
 
 project = 'Sitar'
-#copyright = '2021, Graziella'
 #author = 'Neha Karanjkar'
 
 release = '0.1'
@@ -35,3 +34,6 @@ html_theme = 'sphinx_rtd_theme'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
+
+# The master toctree document.
+master_doc = 'contents'
