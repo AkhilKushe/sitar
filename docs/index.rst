@@ -1,7 +1,3 @@
-****************
-        Sitar : Simulation Tool for Architectural Research (version 2.0)
-****************
-
 ========
 Overview
 ========
