@@ -1,3 +1,5 @@
+.. _content:
+
 ===========================
 Documentation for Sitar V2
 ===========================
@@ -10,4 +12,4 @@ Documentation for Sitar V2
    :maxdepth: 2
 
    index
-   installation/index
+   getting_started/index
