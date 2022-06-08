@@ -13,3 +13,5 @@ Documentation for Sitar V2
 
    index
    getting_started/index
+   keywords/index 
+   about
